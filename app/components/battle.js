@@ -60,7 +60,7 @@ class PlayerInput extends React.Component {
             type="text"
             id="username"
             className="input-light"
-            placeholder="github username"
+            placeholder="GitHub Username"
             autoComplete="off"
             value={this.state.username}
             onChange={this.handleChange}
@@ -83,15 +83,39 @@ PlayerInput.propTypes = {
   label: PropTypes.string.isRequired
 };
 export default class Battle extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      playerOne: null,
+      playerTwo: null
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(id, player){
+      this.setState({
+          [id]: player
+      })
+  }
   render() {
+    const { playerOne, playerTwo } = this.state;
     return (
       <React.Fragment>
         <Instructions />
+        <div className="players-container">
+          <h1 className="center-text header-lg"> Players </h1>
+          <div classNam="row space-around">
+            {playerOne === null && (
+              <PlayerInput label="Player One" onSubmit={(player) => this.handleSubmit('playerOne', player)} />
+            )}
 
-        <PlayerInput
-          label="Label!"
-          onSubmit={value => console.log("value", value)}
-        />
+            {playerTwo === null && (
+              <PlayerInput label="Player Two" onSubmit={(player) => this.handleSubmit('playerTwo', player)} />
+            )}
+          </div>
+        </div>
       </React.Fragment>
     );
   }
