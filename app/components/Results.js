@@ -11,6 +11,7 @@ import {
 import Card from "../components/Card";
 import PropTypes from "prop-types";
 import Loading from "./Loading";
+import Tooltip from "./Tooltip";
 
 function ProfileList({ profile }) {
   return (
@@ -21,14 +22,18 @@ function ProfileList({ profile }) {
       </li>
       {profile.location && (
         <li>
-          <FaCompass color="rgb(144, 115, 255)" size={22} />
-          {profile.location}
+          <Tooltip text="User's location">
+            <FaCompass color="rgb(144, 115, 255)" size={22} />
+            {profile.location}
+          </Tooltip>
         </li>
       )}
       {profile.company && (
         <li>
-          <FaBriefcase color="#795548" size={22} />
-          {profile.company}
+          <Tooltip text="User's company">
+            <FaBriefcase color="#795548" size={22} />
+            {profile.company}
+          </Tooltip>
         </li>
       )}
       <li>
@@ -59,7 +64,7 @@ export default class Results extends React.Component {
     };
   }
   componentDidMount() {
-    const { playerOne, playerTwo, onReset } = this.props;
+    const { playerOne, playerTwo } = this.props;
 
     battle([playerOne, playerTwo])
       .then(players => {
@@ -81,7 +86,7 @@ export default class Results extends React.Component {
     const { winner, loser, error, loading } = this.state;
 
     if (loading === true) {
-      return <Loading />;
+      return <Loading text="Battling" />;
     }
 
     if (error) {
@@ -110,7 +115,7 @@ export default class Results extends React.Component {
             <ProfileList profile={loser.profile} />
           </Card>
         </div>
-        <button className="btn dark-btn btn-space" onClick={this.props.onReset}>
+        <button onClick={this.props.onReset} className="btn dark-btn btn-space">
           Reset
         </button>
       </React.Fragment>
